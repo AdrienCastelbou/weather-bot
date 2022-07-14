@@ -35,6 +35,7 @@ LOCAL (for now) weather bot using Dialogflow API to detect intent and OpenWeathe
 5. Add your Google private_key.json into the project
 ```bash
 .
+├── README.md
 ├── main.py
 ├── private_key.json
 ├── requirements.txt

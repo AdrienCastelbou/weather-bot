@@ -69,4 +69,5 @@ OPEN_WEATHER_API_KEY='MyAPIKey'
  ```bash
  $ python3 main.py "What will be the weather in Paris in two hours ?"
  $ Thursday 14 July 17 22 we will have few clouds , with  31.11  degrees
- 
+ ```
+ ![bono gif](https://c.tenor.com/5mXsllvwqsMAAAAM/toobo-bonobo.gif)

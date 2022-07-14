@@ -1,5 +1,7 @@
 # Bono the bonobo weather-bot
 
+![bono le bonobo](https://i.ytimg.com/vi/R7e9T9PAIPg/mqdefault.jpg)
+
 LOCAL (for now) weather bot using Dialogflow API to detect intent and OpenWeatherMap API to get the weather.
 
 

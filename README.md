@@ -54,10 +54,12 @@ $ touch .env
 DIALOGFLOW_PROJECT_ID='my-dialogflow-project-id'
 ```
 
-8. Complete your .env file with these two environnement variables
+8. Complete your .env file with these environnement variables (feel free to change these values)
 ```bash
 DIALOGFLOW_LANGUAGE_CODE='en'
 SESSION_ID='me'
+HOST='localhost'
+PORT=4242
 ```
 
 9. Add your [OpenWeatherMap API key](https://home.openweathermap.org/api_keys) into the .env file

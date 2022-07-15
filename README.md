@@ -2,7 +2,7 @@
 
 ![bono le bonobo](https://i.ytimg.com/vi/R7e9T9PAIPg/mqdefault.jpg)
 
-LOCAL (for now) weather bot using Dialogflow API to detect intent and OpenWeatherMap API to get the weather.
+Weather bot using Dialogflow API to detect intent and OpenWeatherMap API to get the weather.
 
 
 ## Prerequisites
@@ -65,9 +65,13 @@ SESSION_ID='me'
 OPEN_WEATHER_API_KEY='MyAPIKey'
  ```
  
- 10. That it ! Now you can run the script with your question in argument !
+ 10. That it ! Now you can run the script and use for example nc to talk with Bono !
  ```bash
- $ python3 main.py "What will be the weather in Paris in two hours ?"
- $ Thursday 14 July 17 22 we will have few clouds , with  31.11  degrees
+ # Launch server
+ $ python3 main.py
+ # Send request to the server via nc
+ $ nc localhost 4242
+ What will be the weather in 2 hours
+ 🐵 Thursday 14 July 17 22 we will have few clouds , with  31.11  degrees
  ```
  ![bono gif](https://c.tenor.com/5mXsllvwqsMAAAAM/toobo-bonobo.gif)

@@ -20,6 +20,10 @@ SESSION_ID = os.getenv('SESSION_ID')
 # OpenWeatherMap env variable
 OPEN_WEATHER_API_KEY = os.getenv('OPEN_WEATHER_API_KEY')
 
+# Server env variables
+HOST = os.getenv('HOST')
+PORT = int(os.getenv('PORT'))
+
 
 def get_intent(query):
     session_client = dialogflow.SessionsClient()
@@ -72,11 +76,10 @@ def get_weather(location, date):
 def process_weather_request(intent):
     location = get_location(intent)
     date = get_date(intent)
-    print("date = ", date, "\n")
     report = get_weather(location, date)
     hourly_report = get_weather_by_hour(date, report)
     date = dateutil.parser.parse(date)
-    return date.strftime("%A %d %B %H %M") + ", we will have " + hourly_report["weather"][0]["description"] + \
+    return "🐵 " + date.strftime("%A %d %B %H %M") + ", we will have " + hourly_report["weather"][0]["description"] + \
         ", with " + str(hourly_report["temp"]) + " degrees\n"
 
 
@@ -86,13 +89,13 @@ def process_query(query):
             intent.query_result.intent_detection_confidence >= 0.7:
         response = process_weather_request(intent)
     else:
-        response = "Bro what do you mean ?\n"
+        response = "🐒 Bro what do you mean ?\n"
     return response
 
 
 def init_tcp_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_address = ('localhost', 4242)
+    server_address = (HOST, PORT)
     sock.bind(server_address)
     sock.listen(1)
     while True:
@@ -104,7 +107,7 @@ def init_tcp_server():
         try:
             print("New connection")
             while True:
-                print("waiting for question...")
+                print(" waiting for question...")
                 data = conn.recv(1024)
                 if not data:
                     break

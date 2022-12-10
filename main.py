@@ -1,13 +1,12 @@
 import datetime
 import os
 import socket
-import dialogflow
 from dotenv import load_dotenv
-from google.api_core.exceptions import InvalidArgument
 import requests
 import json
 from geopy.geocoders import Nominatim
 import dateutil.parser
+from dialogflowSession import dialogflowSession
 
 load_dotenv()
 # Dialogflow env variables
@@ -24,17 +23,6 @@ OPEN_WEATHER_API_KEY = os.getenv('OPEN_WEATHER_API_KEY')
 HOST = os.getenv('HOST')
 PORT = int(os.getenv('PORT'))
 
-
-def get_intent(query):
-    session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
-    text_input = dialogflow.types.TextInput(text=query, language_code=DIALOGFLOW_LANGUAGE_CODE)
-    query_input = dialogflow.types.QueryInput(text=text_input)
-    try:
-        intent = session_client.detect_intent(session=session, query_input=query_input)
-    except InvalidArgument:
-        raise
-    return intent
 
 
 def get_location(response):
@@ -83,9 +71,9 @@ def process_weather_request(intent):
         ", with " + str(hourly_report["temp"]) + " degrees\n"
 
 
-def process_query(query):
-    intent = get_intent(query)
-    if intent.query_result.intent.display_name == "get-weather" and \
+def process_query(query, dialogflow_session):
+    intent = dialogflow_session.get_intent(query)
+    if intent.query_result.intent.display_name == "S-get-weather" and \
             intent.query_result.intent_detection_confidence >= 0.7:
         response = process_weather_request(intent)
     else:
@@ -93,7 +81,7 @@ def process_query(query):
     return response
 
 
-def init_tcp_server():
+def run_tcp_server(dialogflow_session):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = (HOST, PORT)
     sock.bind(server_address)
@@ -111,7 +99,7 @@ def init_tcp_server():
                 data = conn.recv(1024)
                 if not data:
                     break
-                response = process_query(query=data.decode())
+                response = process_query(query=data.decode(), dialogflow_session=dialogflow_session)
                 conn.sendall(response.encode())
         except KeyboardInterrupt:
             conn.close()
@@ -122,7 +110,8 @@ def init_tcp_server():
 
 
 def main():
-    init_tcp_server()
+    dialogflow_session = dialogflowSession(DIALOGFLOW_PROJECT_ID, DIALOGFLOW_LANGUAGE_CODE, SESSION_ID)
+    run_tcp_server(dialogflow_session)
 
 
 if __name__ == "__main__":

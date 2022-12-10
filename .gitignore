@@ -1,4 +1,4 @@
 .env
 private_key.json
 venv
-.idea
+/__pycache__/

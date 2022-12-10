@@ -15,6 +15,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'private_key.json'
 DIALOGFLOW_PROJECT_ID = os.getenv('DIALOGFLOW_PROJECT_ID')
 DIALOGFLOW_LANGUAGE_CODE = os.getenv('DIALOGFLOW_LANGUAGE_CODE')
 SESSION_ID = os.getenv('SESSION_ID')
+INTENT_NAME = os.getenv('INTENT_NAME')
 
 # OpenWeatherMap env variable
 OPEN_WEATHER_API_KEY = os.getenv('OPEN_WEATHER_API_KEY')
@@ -73,7 +74,7 @@ def process_weather_request(intent):
 
 def process_query(query, dialogflow_session):
     intent = dialogflow_session.get_intent(query)
-    if intent.query_result.intent.display_name == "S-get-weather" and \
+    if intent.query_result.intent.display_name == INTENT_NAME and \
             intent.query_result.intent_detection_confidence >= 0.7:
         response = process_weather_request(intent)
     else:
